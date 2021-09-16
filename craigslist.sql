@@ -2,38 +2,28 @@ DROP DATABASE IF EXISTS craiglist_db;
 CREATE DATABASE craiglist_db;
 \c craiglist_db;
 
-CREATE TABLE by_state (
-    id SERIAL PRIMARY KEY,
-    state_id TEXT
-)
-
-CREATE TABLE by_city (
-    id SERIAL PRIMARY KEY,
-    city_id TEXT
-)
-
-CREATE TABLE by_zip (
-    id SERIAL PRIMARY KEY,
-    zip_id INTEGER
-)
-
-CREATE TABLE user_regions (
-  id SERIAL PRIMARY KEY,
-  user_nickname VARCHAR(8) NOT NULL,
-  state_id TEXT NOT NULL,
-  city_id TEXT NOT NULL,
-  zip_id INTEGER NOT NULL 
-);
-
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
   title TEXT,
-  post_descript TEXT,
+  content TEXT,
+  users_id INTEGER REFERENCES users (id),
   categories_id TEXT NOT NULL,
-  user_nickname TEXT
+  regions_id INTEGER REFERENCES regions (id)
+);
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  users_name VARCHAR(8) NOT NULL,
+  pwd TEXT NOT NULL,
+  preferred_region INTEGER REFERENCES regions (id)
 );
 
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
-  categories_id TEXT NOT NULL
+  cat_name TEXT NOT NULL
 );
+
+CREATE TABLE regions (
+    id SERIAL PRIMARY KEY,
+    reg_name TEXT
+)
